@@ -1,3 +1,5 @@
+// create random workout options
+
 const workoutOptions = {
     pushups: [{ goal: 20, time: 2 }, { goal: 40, time: 4 }, { goal: 60, time: 6 }],
     pullups: [{ goal: 10, time: 2 }, { goal: 20, time: 4 }, { goal: 30, time: 6 }],
@@ -17,3 +19,40 @@ const getRandomElement = (array) => {
     const randomIndex = Math.floor(Math.random() * array.length);
     return array[randomIndex];
 };
+
+// function to select a random exercise
+
+function getRandomWorkout() {
+  const exercises = Object.keys(workoutOptions);
+  const selectedExercise = getRandomElement(exercises);
+  const selectedGoal = getRandomElement(workoutOptions[selectedExercise]);
+
+  return {
+      exercise: selectedExercise,
+      goal: selectedGoal.goal,
+      time: selectedGoal.time
+  };
+}
+
+// generate 15 min workout
+
+function generate15MinWorkout() {
+  let totalWorkoutTime = 0;
+  const workoutPlan = [];
+
+  while (totalWorkoutTime < 15) {
+      const workout = getRandomWorkout();
+      if (totalWorkoutTime + workout.time <= 15) {
+          const exerciseSentence = `Do ${workout.goal} ${workout.exercise} for about ${workout.time} minutes.`;
+          workoutPlan.push(exerciseSentence);
+          totalWorkoutTime += workout.time;
+      }
+  }
+
+  return "Today's workout plan: " + workoutPlan.join(' Then, ');
+}
+
+// Running the final code
+
+const workoutPlan = generate15MinWorkout();
+console.log(workoutPlan);
